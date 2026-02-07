@@ -206,7 +206,20 @@ VerifyBtn.MouseButton1Click:Connect(function()
         
         -- Загрузка с GitHub (с обходом кэша)
         local timestamp = tick()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-autoplay.lua?t=" .. timestamp))()
+        local url = "https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-autoplay.lua?t=" .. timestamp
+        print("📥 Loading from:", url)
+        
+        local success, result = pcall(function()
+            local scriptContent = game:HttpGet(url)
+            print("✅ Script downloaded! Length:", #scriptContent)
+            loadstring(scriptContent)()
+        end)
+        
+        if not success then
+            warn("❌ Failed to load script:", result)
+        else
+            print("✅ Script loaded successfully!")
+        end
         
     else
         -- Неверный ключ
