@@ -168,21 +168,31 @@ local AbilityData = {
 }
 
 -- Удаление старого GUI
+print("🗑️ Removing old GUI...")
 pcall(function()
-    local playerGui = LocalPlayer:WaitForChild("PlayerGui")
-    if playerGui:FindFirstChild("BladeBallGUI") then
+    local playerGui = LocalPlayer:WaitForChild("PlayerGui", 10)
+    if playerGui and playerGui:FindFirstChild("BladeBallGUI") then
         playerGui:FindFirstChild("BladeBallGUI"):Destroy()
+        print("✅ Old GUI removed")
     end
 end)
 
-task.wait(0.3)
+task.wait(0.5)
 
 -- Создание GUI
-local playerGui = LocalPlayer:WaitForChild("PlayerGui")
+print("🎨 Creating GUI...")
+local playerGui = LocalPlayer:WaitForChild("PlayerGui", 10)
+if not playerGui then
+    warn("❌ PlayerGui not found!")
+    return
+end
+
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "BladeBallGUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = playerGui
+
+print("✅ ScreenGui created")
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 350, 0, 350)
@@ -192,6 +202,8 @@ MainFrame.BorderSizePixel = 0
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Parent = ScreenGui
+
+print("✅ MainFrame created")
 
 local Corner = Instance.new("UICorner")
 Corner.CornerRadius = UDim.new(0, 12)
