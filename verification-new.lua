@@ -46,7 +46,7 @@ if savedKey and ValidateKey(savedKey) then
     print("✅ Saved key validated! Loading script...")
     -- Загружаем основной скрипт
     local timestamp = tick()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-ai-autoplay/refs/heads/main/blade-ball-simple.lua?t=" .. timestamp))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-simple.lua?t=" .. timestamp))()
     return
 end
 
@@ -237,7 +237,7 @@ VerifyBtn.MouseButton1Click:Connect(function()
         
         -- Загрузка с GitHub (с обходом кэша)
         local timestamp = tick()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-ai-autoplay/refs/heads/main/blade-ball-simple.lua?t=" .. timestamp))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-simple.lua?t=" .. timestamp))()
         
     else
         -- Неверный ключ
