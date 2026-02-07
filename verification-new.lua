@@ -218,7 +218,7 @@ VerifyBtn.MouseButton1Click:Connect(function()
         if not success then
             warn("❌ Failed to load script:", result)
         else
-            print("✅ Script loaded successfully!")
+            print("✅ Script execution started!")
         end
         
     else
