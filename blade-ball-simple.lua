@@ -3,19 +3,43 @@
     Простая версия для проверки работоспособности
 ]]
 
--- Ждем загрузки игрока
-repeat task.wait() until game.Players.LocalPlayer
-local LocalPlayer = game.Players.LocalPlayer
-repeat task.wait() until LocalPlayer.Character
-task.wait(1)
+print("🔄 Loading Blade Ball AutoPlay...")
+
+-- Безопасное получение игрока
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Ждем полной загрузки
+if not LocalPlayer then
+    warn("❌ LocalPlayer not found!")
+    return
+end
+
+print("✅ LocalPlayer found:", LocalPlayer.Name)
+
+-- Ждем персонажа
+local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+print("✅ Character found")
+
+-- Ждем HumanoidRootPart
+local hrp = character:WaitForChild("HumanoidRootPart", 10)
+if not hrp then
+    warn("❌ HumanoidRootPart not found!")
+    return
+end
+
+print("✅ HumanoidRootPart found")
+
+-- Дополнительная задержка
+task.wait(2)
 
 -- Сервисы
-local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
-print("🚀 Blade Ball AutoPlay - Loading...")
+print("✅ All services loaded")
+print("🚀 Blade Ball AutoPlay - Ready!")
 
 -- Настройки
 local Settings = {
@@ -29,21 +53,34 @@ local IsParrying = false
 local LastParryTime = 0
 
 -- Удаление старого GUI
+task.wait(0.5)
 pcall(function()
-    local playerGui = LocalPlayer:WaitForChild("PlayerGui")
-    if playerGui:FindFirstChild("BladeBallGUI") then
-        playerGui:FindFirstChild("BladeBallGUI"):Destroy()
+    local playerGui = LocalPlayer:WaitForChild("PlayerGui", 5)
+    if playerGui then
+        local oldGui = playerGui:FindFirstChild("BladeBallGUI")
+        if oldGui then
+            oldGui:Destroy()
+            print("🗑️ Old GUI removed")
+        end
     end
 end)
 
 task.wait(0.5)
 
 -- Создание простого GUI
-local playerGui = LocalPlayer:WaitForChild("PlayerGui")
+print("🎨 Creating GUI...")
+local playerGui = LocalPlayer:WaitForChild("PlayerGui", 10)
+if not playerGui then
+    warn("❌ PlayerGui not found!")
+    return
+end
+
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "BladeBallGUI"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = playerGui
+
+print("✅ GUI created successfully!")
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 300, 0, 200)
