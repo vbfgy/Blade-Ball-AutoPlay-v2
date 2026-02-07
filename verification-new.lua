@@ -13,41 +13,13 @@ local HttpService = game:GetService("HttpService")
 local VerificationSettings = {
     DiscordLink = "https://discord.gg/EFEkgZQFcQ",
     ValidKey = "V67hBYN_189BH",
-    SavedKeyFile = "BladeBall_SavedKey.txt",
 }
-
--- Проверка сохраненного ключа
-local function GetSavedKey()
-    local success, result = pcall(function()
-        return readfile(VerificationSettings.SavedKeyFile)
-    end)
-    if success and result then
-        return result
-    end
-    return nil
-end
-
-local function SaveKey(key)
-    pcall(function()
-        writefile(VerificationSettings.SavedKeyFile, key)
-    end)
-end
 
 local function ValidateKey(key)
     if not key or key == "" then
         return false
     end
     return key == VerificationSettings.ValidKey
-end
-
--- Проверяем сохраненный ключ
-local savedKey = GetSavedKey()
-if savedKey and ValidateKey(savedKey) then
-    print("✅ Saved key validated! Loading script...")
-    -- Загружаем основной скрипт
-    local timestamp = tick()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-simple.lua?t=" .. timestamp))()
-    return
 end
 
 -- Ждем PlayerGui
@@ -224,9 +196,6 @@ VerifyBtn.MouseButton1Click:Connect(function()
         StatusLabel.Text = "✅ Key verified! Loading script..."
         StatusLabel.TextColor3 = Color3.fromRGB(50, 255, 100)
         
-        -- Сохраняем ключ
-        SaveKey(key)
-        
         task.wait(1)
         
         -- Удаляем GUI верификации
@@ -237,7 +206,7 @@ VerifyBtn.MouseButton1Click:Connect(function()
         
         -- Загрузка с GitHub (с обходом кэша)
         local timestamp = tick()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-simple.lua?t=" .. timestamp))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/vbfgy/Blade-Ball-AutoPlay-v2/refs/heads/main/blade-ball-autoplay.lua?t=" .. timestamp))()
         
     else
         -- Неверный ключ
